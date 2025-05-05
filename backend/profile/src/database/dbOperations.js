@@ -1,7 +1,7 @@
 import { client } from "./dbClient.js";
 export async function getUser(userName){
     try{
-    const user = await client.query(`SELECT * from users WHERE userName=$1`,[userName]);
+    const user = await client.query(`SELECT * from profiles WHERE userName=$1`,[userName]);
     return user.rows[0];
     }
     catch(err){
@@ -9,9 +9,9 @@ export async function getUser(userName){
     }
 }
 
-export async function insertUser(userName,password){
+export async function inserNewUser(userName){
     try{
-    const res = await client.query(`INSERT INTO auth (userName,password) VALUES ($1,$2)`,[userName,password]);
+    const res = await client.query(`INSERT INTO profiles (userName) VALUES ($1)`,[userName]);
     console.log(res);
     return;
     }

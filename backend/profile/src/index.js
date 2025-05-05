@@ -1,6 +1,3 @@
-import express from 'express';
+import { startConsumer } from "./kafka/consumer.js";
 
-const app = express();
-app.use(express.json());
-
-app.post('/profile/createProfile');
+startConsumer();

@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { getUser,createUser } from '../Database/DBoperations.js'
-
+import { userCreatedEvent } from '../kafka/producer.js';
 export const signup = async(req,res)=>{
     const secret = process.env.jwt_secret;
     const salt_rounds = process.env.salt_rounds;
@@ -16,7 +16,7 @@ export const signup = async(req,res)=>{
 
         const hash = await bcrypt.hash(password, salt_rounds);
         await createUser(userName, hash);
-
+        userCreatedEvent(userName);
         const token = jwt.sign({ userName }, secret, { expiresIn: jwt_expiry_time });
         return res.status(200).json({ success: true, token, message: "User created and token generated" });
     } catch (err) {
