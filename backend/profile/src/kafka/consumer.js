@@ -11,9 +11,9 @@ export function startConsumer(){
         return kafkaConsumer.run({
             eachMessage: async ({ topic, partition, message }) => {
                 const userName = message.value.toString();
-                console.log(`User created event received for user: ${userName}`);
                 // Handle the user creation event
                 await inserNewUser(userName);
+                console.log(`User created event received for user: ${userName}`);
             },
         });
     })

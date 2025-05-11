@@ -1,8 +1,8 @@
 import { kafkaProducer } from "./kafka.js";
 export async function userCreatedEvent(userName){
-    kafkaProducer.connect();
-    kafkaProducer.send({
+    await kafkaProducer.connect();
+    await kafkaProducer.send({
         topic:'user-created',
-        messages:[{userName}]
+        messages:[{value:JSON.stringify({userName})}]
     })
 }
