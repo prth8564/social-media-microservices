@@ -19,6 +19,7 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
@@ -33,7 +34,7 @@ services:
     volumes:
       - auth_pgdata:/var/lib/postgresql/data
     ports:
-      - "5433:5433"
+      - "5433:5432"
 
   auth-service:
     container_name: auth-service
@@ -45,12 +46,12 @@ services:
     environment:
       KAFKA_BROKERS: kafka:9092
       DB_HOST: auth-db
-      DB_PORT: 5433
+      DB_PORT: 5432
       DB_USER: postgres
       DB_PASSWORD: root123
       DB_NAME: auth
     ports:
-      - "4000:4000" # Change based on your service port
+      - "4000:3000" # Change based on your service port
   
   profile-db:
     image: postgres:15
@@ -75,8 +76,11 @@ services:
       KAFKA_BROKERS: kafka:9092
       DB_HOST: profile-db
       DB_PORT: 5432
-      DB_USER: myuser
-      DB_PASSWORD: mypass
-      DB_NAME: mydb
+      DB_USER: postgres
+      DB_PASSWORD: root123
+      DB_NAME: profiles
     ports:
       - "4001:4001" # Change based on your service port
+volumes:
+  auth_pgdata:
+  profile_pgdata:

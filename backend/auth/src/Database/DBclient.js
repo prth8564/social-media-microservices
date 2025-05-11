@@ -9,4 +9,4 @@ export const client = new Client({
     database:process.env.DB_NAME,
 });
 await client.connect();
-await client.query('CREATE TABLE IF NOT EXISTS auth (userName VARCHAR(50) PRIMARY KEY, password VARCHAR(50))');
+await client.query('CREATE TABLE IF NOT EXISTS auth (userName VARCHAR(50) PRIMARY KEY, password VARCHAR(255))');

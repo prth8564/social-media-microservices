@@ -9,4 +9,4 @@ export const client = new Client({
     database:process.env.DB_NAME,
 });
 await client.connect();
-await client.query('CREATE TABLE profiles (userName VARCHAR(255),age integer,gender text,instruments text[],country text,city text)');
+await client.query('CREATE TABLE IF NOT EXISTS profiles (userName VARCHAR(50),age integer,gender text,instruments text[],country text,city text)');

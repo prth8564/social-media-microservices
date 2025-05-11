@@ -4,7 +4,8 @@ import { getUser,createUser } from '../Database/DBoperations.js'
 import { userCreatedEvent } from '../kafka/producer.js';
 export const signup = async(req,res)=>{
     const secret = process.env.jwt_secret;
-    const salt_rounds = process.env.salt_rounds;
+    const salt_rounds = Number(process.env.salt_rounds);
+    console.log(salt_rounds);
     const jwt_expiry_time = process.env.jwt_expiry_time;
     try {
         const { userName, password } = req.body;
@@ -21,6 +22,6 @@ export const signup = async(req,res)=>{
         return res.status(200).json({ success: true, token, message: "User created and token generated" });
     } catch (err) {
         console.error('Error in signup route:', err);
-        return res.status(500).json({ success: false, message: "Internal server error" });
+        return res.status(500).json({ success: false, message: "Internal server error" })
     }
 }
