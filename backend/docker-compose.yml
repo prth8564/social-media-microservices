@@ -50,7 +50,7 @@ services:
       DB_PASSWORD: root123
       DB_NAME: auth
     ports:
-      - "4000:3000"
+      - "8000:3000"
     develop:
       watch:
         - action: rebuild
@@ -83,7 +83,7 @@ services:
       DB_PASSWORD: root123
       DB_NAME: profiles
     ports:
-      - "4001:4001" # Change based on your service port
+      - "8001:4000" # Change based on your service port
 volumes:
   auth_pgdata:
   profile_pgdata:
