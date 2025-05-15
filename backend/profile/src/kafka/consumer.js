@@ -1,5 +1,5 @@
 import { kafkaConsumer } from "./kafka.js";
-import { inserNewUser } from "../database/dbOperations.js";
+import { insertRow } from "../database/dbOperations.js";
 export function startConsumer(){
     kafkaConsumer.connect()
     .then(() => {
@@ -12,7 +12,7 @@ export function startConsumer(){
             eachMessage: async ({ topic, partition, message }) => {
                 const userName = message.value.toString();
                 // Handle the user creation event
-                await inserNewUser(userName);
+                await insertRow(userName);
                 console.log(`User created event received for user: ${userName}`);
             },
         });

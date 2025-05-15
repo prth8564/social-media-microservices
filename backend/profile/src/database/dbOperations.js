@@ -9,7 +9,7 @@ export async function getUser(userName){
     }
 }
 
-export async function inserNewUser(userName){
+export async function insertRow(userName){
     try{
     const res = await client.query(`INSERT INTO profiles (userName) VALUES ($1)`,[userName]);
     console.log(res);
@@ -19,7 +19,7 @@ export async function inserNewUser(userName){
         throw err;
     }
 }
-export async function updateProfile(age,gender,instruments,country,city,username){
+export async function updateRow(age,gender,instruments,country,city,username){
         const values = [age,gender,instruments,country,city,username];
         const query = `
   UPDATE profiles SET
@@ -47,6 +47,12 @@ export async function updateProfile(age,gender,instruments,country,city,username
 `;
         await client.query(query,values);
         return;
+}
+export async function deleteRow(userName){
+  const query = `DELETE from profiles where userName=($1)`;
+  const values=[userName];
+  await client.query(query,values);
+  return;
 }
 /*
 CREATE TABLE profiles (
