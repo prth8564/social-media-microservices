@@ -10,9 +10,10 @@ export function startConsumer(){
         console.log("Subscribed to user-created topic");
         return kafkaConsumer.run({
             eachMessage: async ({ topic, partition, message }) => {
-                const userName = message.value.toString();
+                const userName = JSON.parse(message.value.toString());
+                console.log(userName.userName);
                 // Handle the user creation event
-                await insertRow(userName);
+                await insertRow(userName.userName);
                 console.log(`User created event received for user: ${userName}`);
             },
         });

@@ -19,8 +19,8 @@ export async function insertRow(userName){
         throw err;
     }
 }
-export async function updateRow(age,gender,instruments,country,city,username){
-        const values = [age,gender,instruments,country,city,username];
+export async function updateRow(age,gender,instruments,country,city,userName){
+        const values = [age,gender,instruments,country,city,userName];
         const query = `
   UPDATE profiles SET
     age = CASE
@@ -43,23 +43,18 @@ export async function updateRow(age,gender,instruments,country,city,username){
                 WHEN city != $5 THEN $5
                 ELSE city
            END
-  WHERE username = $6
+  WHERE userName = $6
 `;
         await client.query(query,values);
         return;
 }
 export async function deleteRow(userName){
-  const query = `DELETE from profiles where userName=($1)`;
+  console.log(userName);
+  const query = `DELETE from profiles where username=($1)`;
   const values=[userName];
-  await client.query(query,values);
+  const res = await client.query(query,values);
+  if(res.rowCount == 0){
+    throw new Error("No rows deleted");
+  }
   return;
 }
-/*
-CREATE TABLE profiles (
-userName VARCHAR(255),
-	age integer,
-	instruments text[],
-	country text,
-	city text
-)
-*/

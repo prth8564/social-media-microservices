@@ -83,7 +83,11 @@ services:
       DB_PASSWORD: root123
       DB_NAME: profiles
     ports:
-      - "8001:4000" # Change based on your service port
+      - "8001:4000"
+    develop:
+      watch:
+        - action: rebuild
+          path: ./auth
 volumes:
   auth_pgdata:
   profile_pgdata:

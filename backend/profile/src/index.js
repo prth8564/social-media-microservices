@@ -7,8 +7,8 @@ app.use(express.json());
 startConsumer();
 
 
-app.patch('profile/editProfile',editProfile)
-app.delete('profile/deleteProfile',deleteProfile);
+app.patch('/profile/editProfile',editProfile)
+app.delete('/profile/deleteProfile',deleteProfile);
 app.listen(4000,()=>{
     console.log("running on 4000");
 })
