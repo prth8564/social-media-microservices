@@ -58,3 +58,25 @@ export async function deleteRow(userName){
   }
   return;
 }
+
+export async function findRows(instruments,city,gender,age){
+  try{
+  const values = [instruments, city,gender,age];
+    const query =`
+    SELECT * from profiles
+    WHERE 
+    ($1::text[] is NULL OR instruments && $1)  
+    AND
+    ($2 is NULL OR city =$2)
+    AND
+    ($3 is NULL OR gender = $3)
+    AND
+    ($4 is NULL OR age = $4)
+    `
+    const res = await client.query(query,values)
+    return res;
+  }
+  catch(err){
+    throw err;
+  }
+}
