@@ -91,8 +91,7 @@ services:
     volumes:
       - conversation_pgdata:/var/lib/postgresql/data
     ports:
-      - "5432:5432" # Change based on your service port
-
+      - "5432:5432"
   messaging-service:
     container_name: messaging-service
     build:
