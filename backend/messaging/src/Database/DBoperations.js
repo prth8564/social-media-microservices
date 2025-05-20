@@ -2,13 +2,21 @@ import { client } from "./DBclient.js";
 import { v4 as uuidv4 } from 'uuid';
 
 export async function insertRowConversation(user1_id,user2_id){
-    const id = uuidv4();
-    const query = 'INSERT INTO conversations (id, user1_id, user2_id) VALUES ($1, $2, $3) WHERE NOT EXISTS (SELECT 1 FROM conversations WHERE user1_id = $2 AND user2_id = $3)';
-    const values = [id, user1_id, user2_id];
+    
     try {
-        await client.query(query, values);
-        console.log('Row inserted successfully');
-        return id;
+        const id = uuidv4();
+        const query = 'INSERT INTO conversations (id, user1_id, user2_id) VALUES ($1, $2, $3) ON CONFLICT (user1_id,user2_id) DO NOTHING RETURNING id';
+        const values = [id, user1_id, user2_id];
+        const res = await client.query(query, values);
+        if(res.rowCount > 0) {
+            return res.rows[0].id;       
+         }
+        else{
+            const Selectquery = 'SELECT id FROM conversations WHERE user1_id = $1 AND user2_id = $2';
+            const Selectvalues = [user1_id, user2_id];
+            const res = await client.query(Selectquery, Selectvalues);
+                return res.rows[0].id;       
+        }
     } catch (error) {
         console.error('Error inserting row:', error);
         throw error;
