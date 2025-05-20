@@ -25,7 +25,7 @@ services:
 
   auth-db:
     image: postgres:15
-    container_name: postgres
+    container_name: auth-postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root123
@@ -51,10 +51,6 @@ services:
       DB_NAME: auth
     ports:
       - "8000:3000"
-    develop:
-      watch:
-        - action: rebuild
-          path: ./auth
   
   profile-db:
     image: postgres:15
@@ -66,7 +62,7 @@ services:
     volumes:
       - profile_pgdata:/var/lib/postgresql/data
     ports:
-      - "5432:5432" # Change based on your service port
+      - "5432:5432"
 
   profile-service:
     container_name: profile-service
@@ -84,10 +80,36 @@ services:
       DB_NAME: profiles
     ports:
       - "8001:4000"
-    develop:
-      watch:
-        - action: rebuild
-          path: ./auth
+  
+  conversations-db:
+    image: postgres:15
+    container_name: conversation-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root123
+      POSTGRES_DB: conversations
+    volumes:
+      - conversation_pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432" # Change based on your service port
+
+  messaging-service:
+    container_name: messaging-service
+    build:
+      context: ./messaging
+    depends_on:
+      - kafka
+      - conversations-db
+    environment:
+      KAFKA_BROKERS: kafka:9092
+      DB_HOST: conversations-db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: root123
+      DB_NAME: conversations
+    ports:
+      - "8002:5000"
 volumes:
   auth_pgdata:
   profile_pgdata:
+  conversation_pgdata:
