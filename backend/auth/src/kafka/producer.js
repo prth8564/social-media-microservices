@@ -5,4 +5,5 @@ export async function userCreatedEvent(userName){
         topic:'user-created',
         messages:[{value:JSON.stringify({userName})}]
     })
+    console.log("user created event sent");
 }
