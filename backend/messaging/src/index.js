@@ -7,5 +7,5 @@ startConsumer();
 app.post('/messages',createMessages);
 
 app.listen(5000,()=>{
-    console.log("Server is running on port 5000");
+    console.log("Server is running on ports 5000");
 })

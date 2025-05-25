@@ -51,6 +51,8 @@ services:
       DB_NAME: auth
     ports:
       - "8000:3000"
+    volumes:
+      - ./auth:/app
   
   profile-db:
     image: postgres:15
@@ -80,6 +82,8 @@ services:
       DB_NAME: profiles
     ports:
       - "8001:4000"
+    volumes:
+      - ./profile:/app
   
   conversations-db:
     image: postgres:15
@@ -108,6 +112,8 @@ services:
       DB_NAME: conversations
     ports:
       - "8002:5000"
+    volumes:
+      - ./messaging:/app
 volumes:
   auth_pgdata:
   profile_pgdata:

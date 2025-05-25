@@ -56,13 +56,13 @@ export async function findRows(instruments,city,gender,age){
     const query =`
     SELECT * from profiles
     WHERE 
-    ($1::text[] is NULL OR instruments && $1)  
+    (ARRAY_LENGTH($1::text[], 1) IS NULL OR instruments && $1::text[])  
     AND
-    ($2 is NULL OR city =$2)
+    ($2::text is NULL OR city =$2)
     AND
-    ($3 is NULL OR gender = $3)
+    ($3::text is NULL OR gender = $3)
     AND
-    ($4 is NULL OR age = $4)
+    ($4::int is NULL OR age = $4)
     `
     const res = await client.query(query,values)
     return res;
