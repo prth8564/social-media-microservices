@@ -14,7 +14,7 @@ export function startConsumer(){
                 const { sender_id, receiver_id, content } = consumedMessage;
                 const conversation_id = await insertRowConversation(sender_id, receiver_id);
                 await insertRowMessage(conversation_id, sender_id, receiver_id, content);
-                console.log(`User created event received for user: ${userName}`);
+                console.log(`Message processed: ${JSON.stringify(consumedMessage)}`);
             },
         });
     })

@@ -16,5 +16,4 @@ export async function createMessages(req,res){
         console.error('Error sending message:', error);
         return res.status(500).json({ error: 'Failed to send message' });   
     }
-
 }

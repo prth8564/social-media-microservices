@@ -20,32 +20,23 @@ export async function insertRow(userName){
     }
 }
 export async function updateRow(age,gender,instruments,country,city,userName){
+        console.log(typeof age,typeof gender,typeof instruments,typeof country,typeof city,typeof userName);
         const values = [age,gender,instruments,country,city,userName];
+        console.log(values);
         const query = `
   UPDATE profiles SET
-    age = CASE
-            WHEN age != $1 THEN $1
-            ELSE age
-          END,
-    gender = CASE
-              WHEN gender != $2 THEN $2
-              ELSE gender
-            END,
-    instruments = CASE
-                    WHEN instruments != $3 THEN $3
-                    ELSE instruments
-                  END,
-    country = CASE
-                WHEN country != $4 THEN $4
-                ELSE country
-              END,
-    city = CASE
-                WHEN city != $5 THEN $5
-                ELSE city
-           END
-  WHERE userName = $6
+      age = COALESCE($1, age),
+      gender = COALESCE($2,gender),
+      instruments = COALESCE($3,instruments),
+      country = COALESCE($4,country),
+      city = COALESCE($5,city)
+      where username = $6
 `;
-        await client.query(query,values);
+        const res = await client.query(query,values);
+        console.log(res.rows);
+        if(res.rowCount == 0){
+            throw new Error("No rows updated");
+        }
         return;
 }
 export async function deleteRow(userName){

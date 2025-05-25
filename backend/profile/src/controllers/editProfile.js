@@ -8,7 +8,7 @@ export async function editProfile(req,res){
     if(!token){
         throw new authError("Token not found");
     }
-    const username = jwt.verify(token,process.env.JWT_SECRET).username;
+    const username = jwt.verify(token,process.env.JWT_SECRET).userName;
     const {age,gender,instruments,country,city} = req.body;
     await updateRow(age,gender,instruments,country,city,username);
     return res.status(200).json({success:true,message:"Profile Updated"});
