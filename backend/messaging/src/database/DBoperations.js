@@ -37,23 +37,20 @@ export async function insertRowMessage(conversation_id,sender_id,receiver_id,con
     }
 }
 
-export async function getConversationId(user1_id, user2_id) {
-    const query = 'SELECT id FROM conversations WHERE (user1_id = $1 AND user2_id = $2) OR (user1_id = $2 AND user2_id = $1)';
-    const values = [user1_id, user2_id];
+export async function getRowConversations(user_id) {
+    const query = 'SELECT * FROM conversations WHERE user1_id = $1 OR user2_id = $1 ORDER BY created_at DESC';
+    const values = [user_id];
     try {
         const res = await client.query(query, values);
-        if (res.rows.length > 0) {
-            return res.rows[0].id;
-        } else {
-            return null;
-        }
-    } catch (error) {
-        console.error('Error fetching conversation ID:', error);
+        return res.rows;        
+    }
+    catch (error) {
+        console.error('Error fetching conversations:', error);
         throw error;
     }
 }
 
-export async function getMessages(conversation_id) {
+export async function getRowMessages(conversation_id) {
     const query = 'SELECT * FROM messages WHERE conversation_id = $1 ORDER BY created_at ASC';
     const values = [conversation_id];
     try {
