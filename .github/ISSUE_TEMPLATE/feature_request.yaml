@@ -1,0 +1,24 @@
+name: 🚀 Feature Request
+description: Suggest a new feature for a specific service
+title: "[Feature]: "
+labels: [feature]
+body:
+  - type: input
+    id: service
+    attributes:
+      label: Service
+      placeholder: svc:auth, svc:matching, etc.
+  - type: textarea
+    id: description
+    attributes:
+      label: What is the feature?
+      placeholder: Describe the functionality, endpoint, etc.
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Tasks
+      options:
+        - label: Define requirements
+        - label: Implement feature
+        - label: Write unit tests
+        - label: Update docs
